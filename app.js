@@ -13,8 +13,9 @@ const bp = require('body-parser')
 const cp = require('cookie-parser')
 
 // const mysql = require('mysql')
-const { Client } = require('pg')
+const { Pool } = require('pg')
 const config = require('./config')
+const connectionString = `postgresql://${config.user}:${config.password}@${config.host}:${config.port}/${config.database}`
 const { response } = require('express')
 
 app.use(bp.json())
@@ -26,9 +27,7 @@ const secret = 'hT%adgsd67a&s76d66&gd76ag9kjwdy2'
 
 // MySQL connection
 // const connection = mysql.createConnection(config)
-
-const connection = new Client(config);
-async () => {await connection.connect()};
+const connection = new Pool({ connectionString: connectionString })
 
 
 // Header setup
